@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpensoBot Mini App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to ExpensoBot</h1>
+        <button id="showUserBtn">Show My Telegram Info</button>
+        <div class="user-info" id="userInfo" style="display:none;"></div>
+    </div>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        document.getElementById('showUserBtn').onclick = function() {
+            if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+                const user = Telegram.WebApp.initDataUnsafe.user;
+                let html = '';
+                if (user.photo_url) {
+                    html += `<img src="${user.photo_url}" alt="User Photo">`;
+                }
+                html += `<h2>${user.first_name} ${user.last_name || ''}</h2>`;
+                html += `<p>@${user.username || 'No username'}</p>`;
+                html += `<p>ID: ${user.id}</p>`;
+                document.getElementById('userInfo').innerHTML = html;
+                document.getElementById('userInfo').style.display = 'block';
+            } else {
+                document.getElementById('userInfo').innerHTML = '<p>Telegram user info not available. Please open this page from the Telegram Mini App.</p>';
+                document.getElementById('userInfo').style.display = 'block';
+            }
+        };
+    </script>
+</body>
+</html>
